@@ -6,11 +6,12 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
 )
 
 func main() {
 	//fmt.Println("Quiz Game!")
-    
+	
 	// open file 
 	f, err := os.Open("problems.csv")
 	if err != nil {
@@ -24,7 +25,8 @@ func main() {
 	csvReader := csv.NewReader(f)
 
 	var correct , incorrect , counter int
-	
+	inputCh := make(chan string)
+
 	for {
 		rec,err := csvReader.Read()
 		if err == io.EOF {
@@ -40,23 +42,37 @@ func main() {
 		fmt.Printf("Question No: %d  %v \n",counter+1, rec[0])
 		var input  string
 
-		fmt.Printf("Enter your Response: ")
-		fmt.Scan(&input)
-	
-		// check 
-		if input == rec[1] {
-			correct++
-		}else {
-			incorrect++
-		}
+		go func ()  {
+			fmt.Printf("Enter your Response: ")
+			_,err := fmt.Scan(&input)
+			if err != nil {
+				log.Fatal(err)
+			}
+			inputCh <-input
+			
+		}()
+		
+		
 
+		select{
+
+		case userRes := <-inputCh:
+			// check user response
+			if userRes == rec[1] {
+				correct++
+			}else {
+				incorrect++
+			}
+
+		case <- time.After(time.Second*8):
+			fmt.Println("Sorry: time out")
+
+		}
+	
 		counter++
 	}
 
-	fmt.Printf("Your score\n Correct: %d  Incorrect: %d \n", correct, incorrect)
-
-
-
+	fmt.Printf("Total Question %d Correct: %d  Incorrect: %d Skiped: %d\n",counter, correct, incorrect, (counter-(correct+incorrect)))
 
 }
 
