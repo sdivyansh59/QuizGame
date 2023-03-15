@@ -4,4 +4,4 @@
 
 ## To achieve timeout feature I used Goroutine, channel and select concepts.
 
-![Screenshot](QuizGame.png)
+![Screenshot](https://github.com/sdivyansh59/QuizGame/blob/main/QuizGame%20.png)
