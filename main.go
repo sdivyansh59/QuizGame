@@ -78,8 +78,10 @@ func main() {
 
 
 /* My reference 
-1. How to read csv file : https://gosamples.dev/read-csv/
-
+1. How to read csv file->  https://gosamples.dev/read-csv/
+2. Select ->   https://go.dev/tour/concurrency/5
+3. How to cancel fmt.Scanf after a certain timeout? ->
+https://stackoverflow.com/questions/50797563/how-to-cancel-fmt-scanf-after-a-certain-timeout
 
 
 */
